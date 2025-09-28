@@ -1,4 +1,11 @@
 <?php
+include '../includes/funciones.php';
+$auth = autenticarUsuario();
+
+if(!$auth) {
+    header('Location: /');
+}
+
 // Importar la conexión
 include '../includes/config/database.php';
 $db = conectarDB();

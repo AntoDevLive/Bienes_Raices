@@ -1,4 +1,12 @@
 <?php
+
+include '../../includes/funciones.php';
+$auth = autenticarUsuario();
+
+if (!$auth) {
+    header('Location: /');
+}
+
 include '../../includes/config/database.php';
 
 $id = $_GET['id'];

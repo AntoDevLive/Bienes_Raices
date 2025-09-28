@@ -1,4 +1,4 @@
-<?php
+<?php session_start();
 //Importar conexion
 require 'includes/config/database.php';
 $db = conectarDB();
@@ -31,6 +31,9 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if($auth) {
                 //El usuario está autenticado
+                $_SESSION['usuario'] = $usuario['email'];
+                $_SESSION['login'] = true;
+                header('Location: /admin');
             }else {
                 $errores[] = 'El email o contraseña no son correctos';
             }
