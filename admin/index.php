@@ -4,6 +4,8 @@
     <h1>Administrador de Bienes Raíces</h1>
 
     <a href="/admin/propiedades/crear.php" class="boton boton-verde">Nueva Propiedad</a>
+    
+    <table class="propiedades"></table>
 </main>
 
 <?php include '../includes/templates/footer.php'; ?>
