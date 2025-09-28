@@ -9,15 +9,22 @@ $query = "SELECT * FROM propiedades";
 //Consultar la BD
 $resultado = mysqli_query($db, $query);
 
+$actualizado = $_GET['actualizado'] ?? null;
 
-include '../includes/templates/header.php' 
+include '../includes/templates/header.php'
 ?>
 
 <main class="contenedor seccion">
     <h1>Administrador de Bienes Raíces</h1>
 
     <a href="/admin/propiedades/crear.php" class="boton boton-verde">Nueva Propiedad</a>
-    
+
+    <?php if ($actualizado == 1): ?>
+        <div class="alerta exito">
+            <p>Anuncio actualizado correctamente</p>
+        </div>
+    <?php endif; ?>
+
     <table class="propiedades">
         <thead>
             <tr>
@@ -29,15 +36,15 @@ include '../includes/templates/header.php'
             </tr>
         </thead>
         <tbody>
-            <?php while($propiedad = mysqli_fetch_assoc($resultado)): ?>
+            <?php while ($propiedad = mysqli_fetch_assoc($resultado)): ?>
                 <tr>
                     <td> <?php echo $propiedad['id']; ?> </td>
                     <td> <?php echo $propiedad['titulo']; ?> </td>
-                    <td> <img class="imagen-tabla" src="/imagenes/<?php echo $propiedad['imagen']; ?>" alt="">  </td>
+                    <td> <img class="imagen-tabla" src="/imagenes/<?php echo $propiedad['imagen']; ?>" alt=""> </td>
                     <td> <?php echo $propiedad['precio']; ?> </td>
-                    <td> 
-                        <a href="#" class="boton-amarillo-block">Actualizar</a> 
-                        <a href="#" class="boton-rojo-block">Eliminar</a> 
+                    <td>
+                        <a href="admin/propiedades/actualizar.php?id=<?php echo $propiedad['id']; ?>" class="boton-amarillo-block">Actualizar</a>
+                        <a href="#" class="boton-rojo-block">Eliminar</a>
                     </td>
                 </tr>
             <?php endwhile; ?>
