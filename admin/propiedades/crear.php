@@ -79,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         //generar nombre unico para imagen
-        $nombreImagen = md5(uniqid(rand(), true)) . "jpg";
+        $nombreImagen = md5(uniqid(rand(), true)) . ".jpg";
 
 
         //Subir la imagen
