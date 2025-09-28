@@ -105,6 +105,12 @@ include '../../includes/templates/header.php';
 <main class="contenedor seccion">
     <h1>Crear Propiedad</h1>
 
+    <?php if ($registrado == 1): ?>
+        <div class="alerta exito">
+            <p>Anuncio creado correctamente</p>
+        </div>
+    <?php endif; ?>
+
     <a href="/admin" class="boton boton-verde">Volver</a>
 
     <?php foreach ($errores as $error): ?>
@@ -112,12 +118,6 @@ include '../../includes/templates/header.php';
             <?php echo $error; ?>
         </div>
     <?php endforeach; ?>
-
-    <?php if($registrado == 1): ?>
-        <div class="alerta exito">
-            <p>Anuncio creado correctamente</p>
-        </div>
-    <?php endif; ?>
 
     <form method="POST" action="/admin/propiedades/crear.php" enctype="multipart/form-data" class="formulario">
         <fieldset>
