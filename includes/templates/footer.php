@@ -11,4 +11,4 @@
         <p class="copyright">&copy;Todos los derechos Reservados <?php echo date("Y"); ?> </p>
     </footer>
 
-    <script src="build/js/bundle.min.js"></script>
+    <script src="/build/js/bundle.min.js"></script>
