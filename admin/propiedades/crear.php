@@ -1,13 +1,13 @@
 <?php
 
-include '../../includes/funciones.php';
-$auth = autenticarUsuario();
+include '../../includes/app.php';
 
-if (!$auth) {
-    header('Location: /');
-}
+use App\Propiedad;
 
-include '../../includes/config/database.php';
+
+autenticarUsuario();
+
+
 $db = conectarDB();
 
 //Consultar para obtener los vendedores

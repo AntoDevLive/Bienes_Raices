@@ -1,4 +1,4 @@
-<?php include 'includes/templates/header.php' ?>
+<?php include 'includes/app.php' ?>
 
     <main class="contenedor seccion contenido-centrado">
         <h1>Guía para la decoración de tu hogar</h1>

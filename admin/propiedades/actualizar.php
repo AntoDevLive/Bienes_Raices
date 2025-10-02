@@ -1,13 +1,11 @@
 <?php
 
-include '../../includes/funciones.php';
+include '../../includes/app.php';
 $auth = autenticarUsuario();
 
 if (!$auth) {
     header('Location: /');
 }
-
-include '../../includes/config/database.php';
 
 $id = $_GET['id'];
 $id = filter_var($id, FILTER_VALIDATE_INT);

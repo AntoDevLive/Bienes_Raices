@@ -5,7 +5,7 @@ if (!$id) {
 }
 
 //Importar conexión
-require 'includes/config/database.php';
+require 'includes/app.php';
 $db = conectarDB();
 
 //Consultar

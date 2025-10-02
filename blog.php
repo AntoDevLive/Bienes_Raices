@@ -1,4 +1,4 @@
-<?php include 'includes/templates/header.php' ?>
+<?php include 'includes/app.php' ?>
 
     <main class="contenedor seccion contenido-centrado">
         <h1>Nuestro Blog</h1>
