@@ -3,7 +3,7 @@ include '../includes/app.php';
 $auth = autenticarUsuario();
 
 if(!$auth) {
-    header('Location: /');
+    // header('Location: /');
 }
 
 // Importar la conexión

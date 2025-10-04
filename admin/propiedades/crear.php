@@ -3,7 +3,8 @@
 include '../../includes/app.php';
 
 use App\Propiedad;
-
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\ImageManager as Image;
 
 autenticarUsuario();
 
@@ -14,9 +15,8 @@ $db = conectarDB();
 $consulta = "SELECT * FROM vendedores";
 $resultado = mysqli_query($db, $consulta);
 
-
 //Arreglo con errores
-$errores = [];
+$errores = Propiedad::getErrores();
 
 $titulo = '';
 $precio = '';
@@ -32,75 +32,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $propiedad = new Propiedad($_POST);
 
-    $propiedad -> guardar();
-
-    debugear($propiedad);
-
-    $titulo = mysqli_real_escape_string($db, $_POST['titulo']);
-    $precio = mysqli_real_escape_string($db, $_POST['precio']);
-    $descripcion = mysqli_real_escape_string($db, $_POST['descripcion']);
-    $habitaciones = mysqli_real_escape_string($db, $_POST['habitaciones']);
-    $wc = mysqli_real_escape_string($db, $_POST['wc']);
-    $estacionamientos = mysqli_real_escape_string($db, $_POST['estacionamientos']);
-    $vendedorId = mysqli_real_escape_string($db, $_POST['vendedor']);
-    $creado = date('Y/m/d');
-    $imagen = $_FILES["imagen"];
-
-
-    if (!$titulo) {
-        $errores[] = "Debes añadir un título";
+    //generar nombre unico para imagen
+    $nombreImagen = md5(uniqid(rand(), true)) . ".jpg";
+    if($_FILES['imagen']['tmp_name']) {
+        $manager = new Image(Driver::class);
+        $imagen = $manager -> read($_FILES['imagen']['tmp_name']) -> cover(800, 600);
+        $propiedad -> setImagen($nombreImagen);
     }
 
-    if (!$precio) {
-        $errores[] = "Debes añadir un precio";
-    }
-
-    if (strlen($descripcion) < 50) {
-        $errores[] = "La descripción debe tener al menos 50 caracteres";
-    }
-
-    if (!$habitaciones) {
-        $errores[] = "Debes añadir un número de habitaciones";
-    }
-
-    if (!$wc) {
-        $errores[] = "Debes añadir un número de baños";
-    }
-
-    if (!$estacionamientos) {
-        $errores[] = "Debes añadir un número de estacionamientos";
-    }
-
-    if (!$vendedorId) {
-        $errores[] = "Debes elegir un vendedor";
-    }
-
-    if (!$imagen['name']) {
-        $errores[] = "Debes elegir una imagen";
-    }
+    $errores = $propiedad -> validar();
 
 
     //Revisar si el arreglo de errores está vacío para insertar los datos en la BD
     if (empty($errores)) {
 
         /* SUBIDA DE ARCHIVOS */
+        
 
-        //crear la carpeta
-        $carpetaImagenes = '../../imagenes/';
-
-        if (!is_dir($carpetaImagenes)) {
-            mkdir($carpetaImagenes);
+        if (!is_dir(CARPETA_IMAGENES)) {
+            mkdir(CARPETA_IMAGENES);
         }
 
-        //generar nombre unico para imagen
-        $nombreImagen = md5(uniqid(rand(), true)) . ".jpg";
+        //Guarda la img en el servidor
+        $imagen -> save(CARPETA_IMAGENES . $nombreImagen);
 
-
-        //Subir la imagen
-        move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen);
-
-        $resultado = mysqli_query($db, $query);
-
+        $resultado = $propiedad->guardar();
         if ($resultado) {
             header('Location: crear.php?registrado=1');
         }
